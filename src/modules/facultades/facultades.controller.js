@@ -1,6 +1,9 @@
+import mongoose from 'mongoose';
 import * as FacultadesService from './facultades.service.js'
+
 export async function listarFacultades(req, res) {
     try{
+        console.log("ENTRÉ AL CONTROLADOR DE FACULTADES")
         const facultades = await FacultadesService.listarFacultades();
         res.json({
             statusCode : 200,
@@ -18,10 +21,10 @@ export async function listarFacultades(req, res) {
     }
 }
 export async function obtenerFacultadPorId(req, res) {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     
     try{
-        if(!Number.isInteger(id) || id<= 0){
+        if(!mongoose.isValidObjectId(id) || id<= 0){
             return res.status(400).json({
                 statusCode: 400,
                 success: false,
@@ -88,9 +91,9 @@ export async function crearFacultad(req, res) {
 }
 export async function actualizarFacultad(req, res) {
     try{
-        const id = Number(req.params.id)
+        const id = req.params.id
         const {name} = req.body;
-        if(!Number.isInteger(id) || id<=0){
+        if(!mongoose.isValidObjectId(id) || id<=0){
             return res.status(400).json({
                 statusCode: 400,
                 success: false,
@@ -132,15 +135,15 @@ export async function actualizarFacultad(req, res) {
             console.error(error);
             res.status(500).json({
                 statusCode: 500,
-                message: "Error al crear la facultad",
+                message: "Error al actualizar la facultad",
                 success: false
             })
         }
 }
 export async function eliminarFacultad(req, res) {
     try{
-        const id = Number(req.params.id);
-         if(!Number.isInteger(id) || id<=0){
+        const id = req.params.id;
+         if(!mongoose.isValidObjectId(id) || id<=0){
             return res.status(400).json({
                 statusCode: 400,
                 success: false,
@@ -160,7 +163,7 @@ export async function eliminarFacultad(req, res) {
             statusCode: 201,
             success: true,
             message: "Facultad eliminada correctamente",
-            data: facultadActual
+            data: facultad
         });
     }catch(error){
          console.error(error)

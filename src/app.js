@@ -1,10 +1,12 @@
 import express from 'express';
-import facultadesRoutes from "./modules/facultades/facultades.routes.js";
-import programasRoutes from  "./modules/programas/programas.routes.js";
+import FacultadesRouter from './modules/facultades/facultades.routes.js';
+import ProgramasRouter from  "./modules/programas/programas.routes.js";
+import EstudiantesRouter from './modules/estudiantes/estudiantes.routes.js';
 const app = express();
 app.use(express.json());
-app.use("/api/facultades", facultadesRoutes);
-app.use("/api/programas", programasRoutes);
+app.use("/api/facultades", FacultadesRouter);
+app.use("/api/programas", ProgramasRouter);
+app.use("/api/estudiantes", EstudiantesRouter)
 app.get("/api/health", (req, res)=>{
     res.json({status: "ok",
         success: true,

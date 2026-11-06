@@ -1,25 +1,27 @@
-import db from "../../config/database.js";
+import Programas from "./programas.model.js";
 export async function listarProgramas() {
-    const [rows] = await db.execute(`SELECT * FROM programas ORDER BY name ASC`);
-    return rows;
+    return await Programas.find().sort({name: 1});
 }
+
 export async function obtenerProgramasPorId(id) {
-     const [rows] = await db.execute(`SELECT * FROM programas WHERE id = ?`, [id]);
-    return rows[0];
+    return await Programas.findById(id);
 }
-export async function crearPrograma(name, facultad_id, codigo) {
-    const [result] = await db.execute(`INSERT INTO programas(name, facultad_id, codigo) VALUES (?, ?, ?)`,
-        [name, facultad_id, codigo]);
-    return result.insertId;
+export async function crearProgramas(name, facultad_id, codigo) {
+    return await Programas.create({name: name,
+        facultad_id: facultad_id,
+        codigo: codigo});
 }
-export async function actualizarPrograma(id, name) {
-    await db.execute(`UPDATE programas SET name =? WHERE id =?`,[name, id]);
-    return obtenerProgramasPorId(id)
+
+export async function actualizarPrograma(id, name, facultad_id, codigo) {
+    return await Programas.findByIdAndUpdate(
+        id,{name: name,
+        facultad_id: facultad_id,
+        codigo: codigo},
+        {returnDocument: 'after', runValidators: true}
+    );
 }
+
 export async function eliminarPrograma(id) {
-    const [result] = await db.execute(`DELETE FROM programas WHERE id =?`, [id]);
-    return(
-        result.affectedRows > 0
-    )
-    
+    const eliminada = await Programas.findByIdAndDelete(id);
+    return eliminada !== null;
 }
