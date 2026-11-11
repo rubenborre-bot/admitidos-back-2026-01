@@ -3,7 +3,7 @@ import * as FacultadesService from './facultades.service.js'
 
 export async function listarFacultades(req, res) {
     try{
-        console.log("ENTRÉ AL CONTROLADOR DE FACULTADES")
+        console.log("LLEGÓ A LISTAR FACULTADES");
         const facultades = await FacultadesService.listarFacultades();
         res.json({
             statusCode : 200,
@@ -56,22 +56,22 @@ export async function obtenerFacultadPorId(req, res) {
 }
 export async function crearFacultad(req, res) {
     try{
-        const {name} = req.body;
-        if(name === undefined){
+        const {nombre} = req.body;
+        if(nombre === undefined){
             return res.status(400).json({
                 statusCode: 400,
                 success: false,
                 message: "El campo 'name' es obligatorio"
             });
         }
-            if(name.length < 3 && name.length > 150){
+            if(nombre.length < 3 || nombre.length > 150){
                 return res.status(400).json({
                     statusCode: 400,
                     success: false,
                     message: "El campo 'name' debe tener entre 3 y 150 caracteres"
                 })
             }
-            const facultad = await FacultadesService.crearFacultad(name);
+            const facultad = await FacultadesService.crearFacultad(nombre);
             res.status(201).json({
                 statusCode: 201,
                 success: true,
@@ -92,7 +92,7 @@ export async function crearFacultad(req, res) {
 export async function actualizarFacultad(req, res) {
     try{
         const id = req.params.id
-        const {name} = req.body;
+        const {nombre} = req.body;
         if(!mongoose.isValidObjectId(id) || id<=0){
             return res.status(400).json({
                 statusCode: 400,
@@ -108,21 +108,21 @@ export async function actualizarFacultad(req, res) {
                 message: "Facultad no encontrada"
             });
         }
-        if(name === undefined){
+        if(nombre === undefined){
             return res.status(400).json({
                 statusCode: 400,
                 success: false,
-                message: "El campo 'name' es obligatorio"
+                message: "El campo 'nombre' es obligatorio"
             });
         }
-            if(name.length < 3 && name.length > 150){
+            if(nombre.length < 3 || nombre.length > 150){
                 return res.status(400).json({
                     statusCode: 400,
                     success: false,
-                    message: "El campo 'name' debe tener entre 3 y 150 caracteres"
+                    message: "El campo 'nombre' debe tener entre 3 y 150 caracteres"
                 })
             }
-            const facultad = await FacultadesService.actualizarFacultad(id, name);
+            const facultad = await FacultadesService.actualizarFacultad(id, nombre);
             res.status(201).json({
                 statusCode: 201,
                 success: true,

@@ -1,7 +1,8 @@
 import app from "./app.js";
 import {connectDB} from "./config/database.js";
+import "dotenv/config";
 
-const PORT = Number(process.env.PORT) || 3306;
+const PORT = Number(process.env.PORT) || 3000;
 const HOST= process.env.HOST;
 const APP_NAME= process.env.APP_NAME;
 

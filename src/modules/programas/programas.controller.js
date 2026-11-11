@@ -67,7 +67,7 @@ export async function crearPrograma(req, res) {
                 message: "El campo 'name', 'facultad_id' y 'codigo' son obligatorios"
             });
         }
-        if(name.length < 3 && name.length > 150){
+        if(name.length < 3 || name.length > 150){
                 return res.status(400).json({
                     statusCode: 400,
                     success: false,
@@ -128,7 +128,7 @@ export async function actualizarPrograma(req, res) {
                 message: "El campo 'name', 'facultad_id' y 'codigo' son obligatorios"
             });
          }
-        if(name.length < 3 && name.length > 150){
+        if(name.length < 3 || name.length > 150){
                 return res.status(400).json({
                     statusCode: 400,
                     success: false,
